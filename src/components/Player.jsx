@@ -13,7 +13,7 @@ export default function Player({ currentWord, isLoading }) {
                     window.speechSynthesis.speak(speech);
                 }}
                 className="play__btn"
-                alt="play-button"
+                alt="play-button-icon"
             />
             <span
                 onClick={() => {
@@ -23,7 +23,7 @@ export default function Player({ currentWord, isLoading }) {
                 disabled={isLoading}
                 className="play__definition"
             >
-                <img src={speaker} className="play__speaker" />
+                <img src={speaker} className="play__speaker" alt="speaker-icon" />
                 <p>Definition</p>
             </span>
         </div>

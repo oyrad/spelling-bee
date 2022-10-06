@@ -4,11 +4,11 @@ import axios from 'axios';
 
 import './App.css';
 import CorrectGuess from './components/CorrectGuess';
+import GuessList from './components/GuessList';
 import Navbar from './components/Navbar';
-
-import { wordLengths } from './util/wordLengths';
 import Player from './components/Player';
-import Guesses from './components/Guesses';
+
+import { getOptions } from './util/getOptions';
 
 export default function App() {
     const [currentWord, setCurrentWord] = useState('');
@@ -17,38 +17,25 @@ export default function App() {
 
     const [isGuessMade, setIsGuessMade] = useState(false);
     const [isGuessCorrect, setIsGuessCorrect] = useState(undefined);
+    const [hasConceded, setHasConceded] = useState(false)
     const [isDisabled, setIsDisabled] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const [isWordReset, setIsWordReset] = useState(false);
 
     const [pastGuesses, setPastGuesses] = useState([]);
+    const [pastGuessIndex, setPastGuessIndex] = useState(null)
 
-    const [winCounter] = useState(localStorage.getItem('wins') || 0);
+    const [winCounter, setWinCounter] = useState(localStorage.getItem('wins') || 0);
 
     useEffect(() => {
         setIsLoading(true);
         setGuess('');
         setIsGuessMade(false);
         setIsGuessCorrect(false);
+        setHasConceded(false)
         setPastGuesses([]);
 
-        const [minLength, maxLength] = wordLengths(difficulty);
-
-        const options = {
-            method: 'GET',
-            url: 'https://wordsapiv1.p.rapidapi.com/words/',
-            params: {
-                letterPattern: `^[a-zA-Z]{${minLength},${maxLength}}$`,
-                random: true,
-                hasDetails: 'definitions',
-            },
-            headers: {
-                'X-RapidAPI-Key':
-                    '60cbe4ea68mshab924fcc87ae084p1b19dejsnf5759fb86e28',
-                'X-RapidAPI-Host': 'wordsapiv1.p.rapidapi.com',
-            },
-        };
-
+        const options = getOptions(difficulty);
         axios
             .request(options)
             .then(function (response) {
@@ -63,8 +50,9 @@ export default function App() {
     const handleSubmit = e => {
         e.preventDefault();
         setIsGuessMade(true);
-        if (pastGuesses.includes(guess)) return;
+        if (pastGuesses.includes(guess)) setPastGuessIndex(pastGuesses.indexOf(guess));
         else setPastGuesses(prevGuesses => [...prevGuesses, guess]);
+
         if (guess.toLowerCase() === currentWord.word) {
             if (winCounter === 0) {
                 localStorage.setItem('wins', 1);
@@ -74,6 +62,7 @@ export default function App() {
                     parseInt(localStorage.getItem('wins')) + 1
                 );
             }
+            setWinCounter(prevCount => prevCount + 1)
             setIsGuessCorrect(true);
         } else {
             setIsGuessCorrect(false);
@@ -102,6 +91,7 @@ export default function App() {
                         setIsGuessCorrect={setIsGuessCorrect}
                         isWordReset={isWordReset}
                         currentWord={currentWord.word}
+                        hasConceded={hasConceded}
                     />
                 ) : (
                     <form onSubmit={handleSubmit} className="form">
@@ -113,16 +103,20 @@ export default function App() {
                             value={guess}
                             onChange={e => setGuess(e.target.value)}
                             onAnimationEnd={() => setIsGuessMade(false)}
-                            className={`form__input ${
-                                isGuessMade && 'form__input-incorrect'
-                            }`}
+                            className={`form__input ${isGuessMade && 'form__input-incorrect'
+                                }`}
                         />
-                        <button className="button" disabled={isDisabled}>
-                            GUESS
-                        </button>
+                        <div className="form__buttons">
+                            <button className="button form__button-guess" type="submit" disabled={isDisabled}>
+                                GUESS
+                            </button>
+                            <button className="button form__button-concede" type="button" onClick={() => { setHasConceded(true); setIsGuessCorrect(true); }}>
+                                CONCEDE
+                            </button>
+                        </div>
                     </form>
                 )}
-                <Guesses previousGuesses={pastGuesses} />
+                <GuessList previousGuesses={pastGuesses} previousGuessIndex={pastGuessIndex} setPreviousGuessIndex={setPastGuessIndex} isGuessCorrect={isGuessCorrect} hasConceded={hasConceded} />
             </div>
         </div>
     );
