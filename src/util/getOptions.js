@@ -35,8 +35,7 @@ export const getOptions = difficulty => {
             hasDetails: "definitions",
         },
         headers: {
-            "X-RapidAPI-Key":
-                "60cbe4ea68mshab924fcc87ae084p1b19dejsnf5759fb86e28",
+            "X-RapidAPI-Key": process.env.REACT_APP_API_KEY,
             "X-RapidAPI-Host": "wordsapiv1.p.rapidapi.com",
         },
     };
