@@ -5,51 +5,34 @@ import axios from 'axios';
 import './App.css';
 import CorrectGuess from './components/CorrectGuess';
 import Navbar from './components/Navbar';
-import play from './images/play.svg';
 
-const App = () => {
+import { wordLengths } from './util/wordLengths';
+import Player from './components/Player';
+import Guesses from './components/Guesses';
+
+export default function App() {
     const [currentWord, setCurrentWord] = useState('');
     const [difficulty, setDifficulty] = useState('medium');
     const [guess, setGuess] = useState('');
+
     const [isGuessMade, setIsGuessMade] = useState(false);
     const [isGuessCorrect, setIsGuessCorrect] = useState(undefined);
     const [isDisabled, setIsDisabled] = useState(true);
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false);
     const [isWordReset, setIsWordReset] = useState(false);
 
-    const spokenWord = new SpeechSynthesisUtterance();
+    const [pastGuesses, setPastGuesses] = useState([]);
+
+    const [winCounter] = useState(localStorage.getItem('wins') || 0);
 
     useEffect(() => {
-        setIsLoading(true)
-        setGuess("");
-        setIsGuessMade(false)
+        setIsLoading(true);
+        setGuess('');
+        setIsGuessMade(false);
+        setIsGuessCorrect(false);
+        setPastGuesses([]);
 
-        let minLength;
-        let maxLength;
-        switch (difficulty) {
-            case 'beginner':
-                minLength = 4;
-                maxLength = 6;
-                break;
-            case 'easy':
-                minLength = 7;
-                maxLength = 10;
-                break;
-            case 'medium':
-                minLength = 11;
-                maxLength = 14;
-                break;
-            case 'hard':
-                minLength = 15;
-                maxLength = 19;
-                break;
-            case 'veryHard':
-                minLength = 20;
-                maxLength = 50;
-                break;
-            default:
-                break;
-        }
+        const [minLength, maxLength] = wordLengths(difficulty);
 
         const options = {
             method: 'GET',
@@ -57,7 +40,7 @@ const App = () => {
             params: {
                 letterPattern: `^[a-zA-Z]{${minLength},${maxLength}}$`,
                 random: true,
-                hasDetails: "definitions"
+                hasDetails: 'definitions',
             },
             headers: {
                 'X-RapidAPI-Key':
@@ -70,18 +53,27 @@ const App = () => {
             .request(options)
             .then(function (response) {
                 setCurrentWord(response.data);
-                setIsLoading(false)
+                setIsLoading(false);
             })
             .catch(function (error) {
                 console.error(error);
             });
-
     }, [difficulty, isWordReset]);
 
     const handleSubmit = e => {
         e.preventDefault();
         setIsGuessMade(true);
+        if (pastGuesses.includes(guess)) return;
+        else setPastGuesses(prevGuesses => [...prevGuesses, guess]);
         if (guess.toLowerCase() === currentWord.word) {
+            if (winCounter === 0) {
+                localStorage.setItem('wins', 1);
+            } else {
+                localStorage.setItem(
+                    'wins',
+                    parseInt(localStorage.getItem('wins')) + 1
+                );
+            }
             setIsGuessCorrect(true);
         } else {
             setIsGuessCorrect(false);
@@ -89,53 +81,49 @@ const App = () => {
     };
 
     useEffect(() => {
-        setIsGuessMade(false)
+        setIsGuessMade(false);
         if (guess.length > 0) setIsDisabled(false);
         else setIsDisabled(true);
     }, [guess]);
 
     return (
         <div className="container">
-            <Navbar setDifficulty={setDifficulty} />
-            <div className={isLoading ? "play play-loading" : "play"}>
-                <img
-                    src={play}
-                    onClick={() => {
-                        spokenWord.text = currentWord.word;
-                        window.speechSynthesis.speak(spokenWord);
-                    }}
-                    className="play__btn"
-                    alt="play-button"
-                />
-                <button onClick={() => { spokenWord.text = currentWord.results[0].definition; window.speechSynthesis.speak(spokenWord) }} disabled={isLoading}>Hear the definition</button>
-            </div>
-
-            <form onSubmit={handleSubmit} className="form">
-                <input
-                    name="guess"
-                    placeholder="Type your answer here..."
-                    value={guess}
-                    onChange={e => setGuess(e.target.value)}
-                    className="form__input"
-                />
-                <button className="form__button" disabled={isDisabled}>
-                    GUESS
-                </button>
-            </form>
-            {isGuessMade &&
-                (isGuessCorrect ? (
+            <Navbar
+                setDifficulty={setDifficulty}
+                wins={localStorage.getItem('wins') || 0}
+            />
+            <div className="content-container">
+                <Player currentWord={currentWord} isLoading={isLoading} />
+                {isGuessCorrect ? (
                     <CorrectGuess
                         setGuess={setGuess}
                         setIsGuessMade={setIsGuessMade}
                         setIsWordReset={setIsWordReset}
+                        setIsGuessCorrect={setIsGuessCorrect}
                         isWordReset={isWordReset}
                         currentWord={currentWord.word}
                     />
                 ) : (
-                    <p>incorrect</p>
-                ))}
+                    <form onSubmit={handleSubmit} className="form">
+                        <input
+                            name="guess"
+                            placeholder="Type your answer here..."
+                            autoComplete="off"
+                            spellCheck="false"
+                            value={guess}
+                            onChange={e => setGuess(e.target.value)}
+                            onAnimationEnd={() => setIsGuessMade(false)}
+                            className={`form__input ${
+                                isGuessMade && 'form__input-incorrect'
+                            }`}
+                        />
+                        <button className="button" disabled={isDisabled}>
+                            GUESS
+                        </button>
+                    </form>
+                )}
+                <Guesses previousGuesses={pastGuesses} />
+            </div>
         </div>
     );
-};
-
-export default App;
+}

@@ -1,13 +1,13 @@
 import bee from '../images/bee.svg';
 
-export default function Navbar({ setDifficulty }) {
+export default function Navbar({ setDifficulty, wins }) {
     return (
-        <navbar className="navbar">
+        <nav className="navbar">
             <span className="navbar__logo">
                 <p className="navbar__text">SPELLING BEE</p>
                 <img src={bee} className="navbar__icon" alt="bee" />
             </span>
-            <span>
+            <span className="navbar__actions">
                 <label className="navbar__label">Difficulty:</label>
                 <select
                     onChange={e => setDifficulty(e.target.value)}
@@ -21,7 +21,8 @@ export default function Navbar({ setDifficulty }) {
                     <option value="hard">Hard</option>
                     <option value="veryHard">Very hard</option>
                 </select>
+                <p className="navbar__stats">Wins: {wins}</p>
             </span>
-        </navbar>
+        </nav>
     );
 }
