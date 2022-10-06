@@ -5,12 +5,12 @@ export default function CorrectGuess({
     setIsGuessCorrect,
     isWordReset,
     currentWord,
-    hasConceded
+    hasConceded,
 }) {
     return (
         <div className="correct">
             <p className="correct__message">
-                {hasConceded ? "The correct word was " : "Correct, the word was "}
+                {hasConceded ? 'The word was ' : 'Correct, the word is '}
                 <a
                     href={`https://www.thefreedictionary.com/${currentWord}`}
                     target="_blank"

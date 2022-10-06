@@ -17,22 +17,24 @@ export default function App() {
 
     const [isGuessMade, setIsGuessMade] = useState(false);
     const [isGuessCorrect, setIsGuessCorrect] = useState(undefined);
-    const [hasConceded, setHasConceded] = useState(false)
+    const [hasConceded, setHasConceded] = useState(false);
     const [isDisabled, setIsDisabled] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const [isWordReset, setIsWordReset] = useState(false);
 
     const [pastGuesses, setPastGuesses] = useState([]);
-    const [pastGuessIndex, setPastGuessIndex] = useState(null)
+    const [pastGuessIndex, setPastGuessIndex] = useState(null);
 
-    const [winCounter, setWinCounter] = useState(localStorage.getItem('wins') || 0);
+    const [winCounter, setWinCounter] = useState(
+        localStorage.getItem('wins') || 0
+    );
 
     useEffect(() => {
         setIsLoading(true);
         setGuess('');
         setIsGuessMade(false);
         setIsGuessCorrect(false);
-        setHasConceded(false)
+        setHasConceded(false);
         setPastGuesses([]);
 
         const options = getOptions(difficulty);
@@ -50,7 +52,8 @@ export default function App() {
     const handleSubmit = e => {
         e.preventDefault();
         setIsGuessMade(true);
-        if (pastGuesses.includes(guess)) setPastGuessIndex(pastGuesses.indexOf(guess));
+        if (pastGuesses.includes(guess))
+            setPastGuessIndex(pastGuesses.indexOf(guess));
         else setPastGuesses(prevGuesses => [...prevGuesses, guess]);
 
         if (guess.toLowerCase() === currentWord.word) {
@@ -62,7 +65,7 @@ export default function App() {
                     parseInt(localStorage.getItem('wins')) + 1
                 );
             }
-            setWinCounter(prevCount => prevCount + 1)
+            setWinCounter(prevCount => prevCount + 1);
             setIsGuessCorrect(true);
         } else {
             setIsGuessCorrect(false);
@@ -103,20 +106,38 @@ export default function App() {
                             value={guess}
                             onChange={e => setGuess(e.target.value)}
                             onAnimationEnd={() => setIsGuessMade(false)}
-                            className={`form__input ${isGuessMade && 'form__input-incorrect'
-                                }`}
+                            className={`form__input ${
+                                isGuessMade && 'form__input-incorrect'
+                            }`}
                         />
                         <div className="form__buttons">
-                            <button className="button form__button-guess" type="submit" disabled={isDisabled}>
+                            <button
+                                className="button form__button-guess"
+                                type="submit"
+                                disabled={isDisabled}
+                            >
                                 GUESS
                             </button>
-                            <button className="button form__button-concede" type="button" onClick={() => { setHasConceded(true); setIsGuessCorrect(true); }}>
+                            <button
+                                className="button form__button-concede"
+                                type="button"
+                                onClick={() => {
+                                    setHasConceded(true);
+                                    setIsGuessCorrect(true);
+                                }}
+                            >
                                 CONCEDE
                             </button>
                         </div>
                     </form>
                 )}
-                <GuessList previousGuesses={pastGuesses} previousGuessIndex={pastGuessIndex} setPreviousGuessIndex={setPastGuessIndex} isGuessCorrect={isGuessCorrect} hasConceded={hasConceded} />
+                <GuessList
+                    previousGuesses={pastGuesses}
+                    previousGuessIndex={pastGuessIndex}
+                    setPreviousGuessIndex={setPastGuessIndex}
+                    isGuessCorrect={isGuessCorrect}
+                    hasConceded={hasConceded}
+                />
             </div>
         </div>
     );

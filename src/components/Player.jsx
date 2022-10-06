@@ -23,7 +23,11 @@ export default function Player({ currentWord, isLoading }) {
                 disabled={isLoading}
                 className="play__definition"
             >
-                <img src={speaker} className="play__speaker" alt="speaker-icon" />
+                <img
+                    src={speaker}
+                    className="play__speaker"
+                    alt="speaker-icon"
+                />
                 <p>Definition</p>
             </span>
         </div>
