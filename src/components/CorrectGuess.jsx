@@ -3,10 +3,11 @@ export default function CorrectGuess({
     setGuess,
     setIsWordReset,
     isWordReset,
+    currentWord
 }) {
     return (
-        <span>
-            <p>ou win!</p>
+        <>
+            <p>you win!</p>
             <button
                 onClick={() => {
                     setIsGuessMade(false);
@@ -16,6 +17,7 @@ export default function CorrectGuess({
             >
                 Play again
             </button>
-        </span>
+            <a href={`https://www.thefreedictionary.com/${currentWord}`} target="_blank" rel="noreferrer">LINK</a>
+        </>
     );
 }

@@ -14,11 +14,16 @@ const App = () => {
     const [isGuessMade, setIsGuessMade] = useState(false);
     const [isGuessCorrect, setIsGuessCorrect] = useState(undefined);
     const [isDisabled, setIsDisabled] = useState(true);
+    const [isLoading, setIsLoading] = useState(false)
     const [isWordReset, setIsWordReset] = useState(false);
 
     const spokenWord = new SpeechSynthesisUtterance();
 
     useEffect(() => {
+        setIsLoading(true)
+        setGuess("");
+        setIsGuessMade(false)
+
         let minLength;
         let maxLength;
         switch (difficulty) {
@@ -40,11 +45,9 @@ const App = () => {
                 break;
             case 'veryHard':
                 minLength = 20;
-                maxLength = 24;
+                maxLength = 50;
                 break;
-            case 'impossible':
-                minLength = 25;
-                maxLength = 75;
+            default:
                 break;
         }
 
@@ -54,6 +57,7 @@ const App = () => {
             params: {
                 letterPattern: `^[a-zA-Z]{${minLength},${maxLength}}$`,
                 random: true,
+                hasDetails: "definitions"
             },
             headers: {
                 'X-RapidAPI-Key':
@@ -65,18 +69,19 @@ const App = () => {
         axios
             .request(options)
             .then(function (response) {
-                setCurrentWord(response.data.word);
-                console.log(response.data.word);
+                setCurrentWord(response.data);
+                setIsLoading(false)
             })
             .catch(function (error) {
                 console.error(error);
             });
+
     }, [difficulty, isWordReset]);
 
     const handleSubmit = e => {
         e.preventDefault();
         setIsGuessMade(true);
-        if (guess.toLowerCase() === currentWord) {
+        if (guess.toLowerCase() === currentWord.word) {
             setIsGuessCorrect(true);
         } else {
             setIsGuessCorrect(false);
@@ -84,6 +89,7 @@ const App = () => {
     };
 
     useEffect(() => {
+        setIsGuessMade(false)
         if (guess.length > 0) setIsDisabled(false);
         else setIsDisabled(true);
     }, [guess]);
@@ -91,17 +97,19 @@ const App = () => {
     return (
         <div className="container">
             <Navbar setDifficulty={setDifficulty} />
-            <span className="play">
+            <div className={isLoading ? "play play-loading" : "play"}>
                 <img
                     src={play}
                     onClick={() => {
-                        spokenWord.text = currentWord;
+                        spokenWord.text = currentWord.word;
                         window.speechSynthesis.speak(spokenWord);
                     }}
                     className="play__btn"
+                    alt="play-button"
                 />
-                <p className="play__text">PLAY THE WORD</p>
-            </span>
+                <button onClick={() => { spokenWord.text = currentWord.results[0].definition; window.speechSynthesis.speak(spokenWord) }} disabled={isLoading}>Hear the definition</button>
+            </div>
+
             <form onSubmit={handleSubmit} className="form">
                 <input
                     name="guess"
@@ -121,6 +129,7 @@ const App = () => {
                         setIsGuessMade={setIsGuessMade}
                         setIsWordReset={setIsWordReset}
                         isWordReset={isWordReset}
+                        currentWord={currentWord.word}
                     />
                 ) : (
                     <p>incorrect</p>

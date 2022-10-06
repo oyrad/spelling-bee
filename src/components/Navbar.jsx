@@ -5,7 +5,7 @@ export default function Navbar({ setDifficulty }) {
         <navbar className="navbar">
             <span className="navbar__logo">
                 <p className="navbar__text">SPELLING BEE</p>
-                <img src={bee} className="navbar__icon" />
+                <img src={bee} className="navbar__icon" alt="bee" />
             </span>
             <span>
                 <label className="navbar__label">Difficulty:</label>
@@ -20,7 +20,6 @@ export default function Navbar({ setDifficulty }) {
                     </option>
                     <option value="hard">Hard</option>
                     <option value="veryHard">Very hard</option>
-                    <option value="impossible">Impossible</option>
                 </select>
             </span>
         </navbar>

@@ -8,7 +8,7 @@ body {
 }
 
 .container {
-    max-width: 850px;
+    max-width: 800px;
     margin: auto;
 }
 
@@ -16,6 +16,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 1rem;
 }
 
 .navbar__logo {
@@ -43,22 +44,28 @@ body {
 
 .play {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
+    margin-bottom: 2rem;
 }
 
 .play__btn {
-    width: 6rem;
+    width: 10rem;
     cursor: pointer;
-    margin-right: 0.5rem;
+}
+
+.play-loading {
+    opacity: 0.3;
 }
 
 .play__btn:hover {
     opacity: 0.75;
 }
 
-.play__text {
-    font-size: 3rem;
+.form {
+    display: flex;
+    justify-content: center;
 }
 
 .form__input {
