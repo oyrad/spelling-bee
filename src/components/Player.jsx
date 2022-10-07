@@ -9,6 +9,7 @@ export default function Player({ currentWord, isLoading }) {
             <img
                 src={play}
                 onClick={() => {
+                    if (isLoading) return;
                     speech.text = currentWord.word;
                     window.speechSynthesis.speak(speech);
                 }}

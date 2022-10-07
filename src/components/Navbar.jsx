@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import sun from "../images/sun.svg"
 import moon from "../images/moon.svg"
 
-export default function Navbar({ setDifficulty, wins }) {
+export default function Navbar({ setDifficulty, wins, losses }) {
     const [isLightTheme, setIsLightTheme] = useState(undefined)
 
     useEffect(() => {
@@ -38,7 +38,7 @@ export default function Navbar({ setDifficulty, wins }) {
                     <option value="hard">Hard</option>
                     <option value="veryHard">Very hard</option>
                 </select>
-                <p className="navbar__stats">Wins: {wins}</p>
+                {/*<p className="navbar__stats">{wins}/{wins + losses}</p>*/}
                 <img src={isLightTheme ? moon : sun} onClick={() => setIsLightTheme(!isLightTheme)} className="navbar__toggle" alt="toggle" />
             </span>
         </nav>

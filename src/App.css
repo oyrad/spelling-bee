@@ -21,7 +21,7 @@ a:hover {
 }
 
 .dark-theme {
-    filter: invert(1) grayscale(1);
+    filter: invert(1) hue-rotate(180deg);
     background: black;
 }
 
@@ -232,7 +232,7 @@ a:hover {
 @keyframes incorrect-guess {
     0% {
         transform: translateX(-30px);
-        border-bottom: 1.5px solid rgb(255, 61, 61);
+/*         border-bottom: 1.5px solid rgb(255, 61, 61); */
     }
     20% {
         transform: translateX(24px);

@@ -28,6 +28,9 @@ export default function App() {
     const [winCounter, setWinCounter] = useState(
         localStorage.getItem('wins') || 0
     );
+    const [givenUpCounter, setGivenUpCounter] = useState(
+        localStorage.getItem('losses') || 0
+    );
 
     useEffect(() => {
         setIsLoading(true);
@@ -82,7 +85,8 @@ export default function App() {
         <div className="container">
             <Navbar
                 setDifficulty={setDifficulty}
-                wins={localStorage.getItem('wins') || 0}
+                wins={parseInt(localStorage.getItem('wins') || 0)}
+                losses={parseInt(localStorage.getItem('losses') || 0)}
             />
             <div className="content-container">
                 <Player currentWord={currentWord} isLoading={isLoading} />
@@ -122,6 +126,9 @@ export default function App() {
                                 onClick={() => {
                                     setHasConceded(true);
                                     setIsGuessCorrect(true);
+                                    if (givenUpCounter === 0) { localStorage.setItem('losses', 1) }
+                                    else { (localStorage.setItem('losses', parseInt(localStorage.getItem('losses')) + 1)) }
+                                    setGivenUpCounter(prevCount => prevCount + 1)
                                 }}
                             >
                                 GIVE UP
