@@ -106,9 +106,7 @@ export default function App() {
                             value={guess}
                             onChange={e => setGuess(e.target.value)}
                             onAnimationEnd={() => setIsGuessMade(false)}
-                            className={`form__input ${
-                                isGuessMade && 'form__input-incorrect'
-                            }`}
+                            className={`form__input ${isGuessMade && 'form__input-incorrect'}`}
                         />
                         <div className="form__buttons">
                             <button
@@ -126,7 +124,7 @@ export default function App() {
                                     setIsGuessCorrect(true);
                                 }}
                             >
-                                CONCEDE
+                                GIVE UP
                             </button>
                         </div>
                     </form>
