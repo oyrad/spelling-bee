@@ -1,5 +1,3 @@
-import API_KEY from './apiKey';
-
 export const getOptions = difficulty => {
     let minLength;
     let maxLength;
@@ -37,7 +35,7 @@ export const getOptions = difficulty => {
             hasDetails: 'definitions',
         },
         headers: {
-            'X-RapidAPI-Key': API_KEY,
+            'X-RapidAPI-Key': REACT_APP_API_KEY,
             'X-RapidAPI-Host': 'wordsapiv1.p.rapidapi.com',
         },
     };
