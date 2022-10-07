@@ -30,7 +30,7 @@ export default function CorrectGuess({
                 }}
                 className="button correct__reload"
             >
-                Play again
+                PLAY AGAIN
             </button>
         </div>
     );
