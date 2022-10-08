@@ -288,6 +288,6 @@ a:active {
     }
 
     .correct__message {
-        margin-bottom: 0;
+        margin-bottom: 1rem;
     }
 }
