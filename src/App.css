@@ -286,4 +286,8 @@ a:active {
     .form__button-concede {
         width: 33%;
     }
+
+    .correct__message {
+        margin-bottom: 0;
+    }
 }
