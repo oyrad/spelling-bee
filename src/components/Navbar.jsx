@@ -17,9 +17,8 @@ export default function Navbar({ setDifficulty, wins, losses }) {
 
     useEffect(() => {
         if (isLightTheme) {
-            if (document.body.classList.contains('dark-theme')) {
-                document.body.classList.remove('dark-theme');
-            }
+            if (!document.body.classList.contains('dark-theme')) return;
+            document.body.classList.remove('dark-theme');
         } else {
             document.body.classList.add('dark-theme');
         }

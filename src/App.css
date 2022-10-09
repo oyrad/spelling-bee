@@ -186,6 +186,11 @@ a {
 }
 
 @media (hover: hover) {
+    .button:hover {
+        color: white;
+        background: black;
+    }
+
     .form__button-concede:hover {
         background: white;
         border: 1px solid rgb(213, 35, 35);
@@ -209,11 +214,6 @@ a {
     .navbar__select:hover,
     .navbar__toggle:hover {
         opacity: 0.85;
-    }
-
-    .button:hover {
-        color: white;
-        background: black;
     }
 
     a:hover {
