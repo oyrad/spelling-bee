@@ -5,6 +5,12 @@ body {
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
+    transition: all 150ms ease-in-out;
+}
+
+.dark-theme {
+    filter: invert(1) hue-rotate(180deg);
+    background: black;
 }
 
 p {
@@ -14,16 +20,6 @@ p {
 a {
     text-decoration: none;
     color: black;
-}
-
-a:hover,
-a:active {
-    text-decoration: underline;
-}
-
-.dark-theme {
-    filter: invert(1) hue-rotate(180deg);
-    background: black;
 }
 
 .container {
@@ -47,11 +43,6 @@ a:active {
     background: white;
     transition: all ease-in-out 150ms;
     width: 100%;
-}
-
-.button:hover {
-    color: white;
-    background: black;
 }
 
 .navbar {
@@ -83,11 +74,6 @@ a:active {
     margin-right: 1.5rem;
 }
 
-.navbar__select:hover,
-.navbar__toggle:hover {
-    opacity: 0.85;
-}
-
 .navbar__toggle {
     cursor: pointer;
     height: 24px;
@@ -106,11 +92,6 @@ a:active {
     cursor: pointer;
 }
 
-.play__btn:hover,
-.play__btn:active {
-    opacity: 0.75;
-}
-
 .play-loading {
     opacity: 0.2;
 }
@@ -119,11 +100,6 @@ a:active {
     cursor: pointer;
     display: flex;
     align-items: center;
-}
-
-.play__definition:hover,
-.play__definition:active {
-    opacity: 0.75;
 }
 
 .play__speaker {
@@ -167,27 +143,12 @@ a:active {
     margin-right: 0.5rem;
 }
 
-.form__button-guess:hover,
-.correct__reload:hover,
-.form__button-guess:active,
-.correct__reload:active {
-    color: black;
-    background: white;
-}
-
 .form__button-concede {
     width: 30%;
     padding: 0.3rem 1rem;
     background: rgb(213, 35, 35);
     border: 1px solid white;
     color: white;
-}
-
-.form__button-concede:hover,
-.form__button-concede:active {
-    background: white;
-    border: 1px solid rgb(213, 35, 35);
-    color: rgb(213, 35, 35);
 }
 
 .correct {
@@ -224,35 +185,39 @@ a:active {
     color: green;
 }
 
-@keyframes incorrect-guess {
-    0% {
-        transform: translateX(-30px);
-        /*         border-bottom: 1.5px solid rgb(255, 61, 61); */
+@media (hover: hover) {
+    .form__button-concede:hover {
+        background: white;
+        border: 1px solid rgb(213, 35, 35);
+        color: rgb(213, 35, 35);
     }
-    20% {
-        transform: translateX(24px);
-    }
-    40% {
-        transform: translateX(-18px);
-    }
-    60% {
-        transform: translateX(12px);
-    }
-    80% {
-        transform: translateX(-6px);
-    }
-    100% {
-        transform: translateX(0px);
-        border-bottom: 1.5px solid #bbb;
-    }
-}
 
-@keyframes previous-guess {
-    0% {
-        color: rgb(255, 61, 61);
-    }
-    100% {
+    .form__button-guess:hover,
+    .correct__reload:hover {
         color: black;
+        background: white;
+    }
+
+    .play__definition:hover {
+        opacity: 0.75;
+    }
+
+    .play__btn:hover {
+        opacity: 0.75;
+    }
+
+    .navbar__select:hover,
+    .navbar__toggle:hover {
+        opacity: 0.85;
+    }
+
+    .button:hover {
+        color: white;
+        background: black;
+    }
+
+    a:hover {
+        text-decoration: underline;
     }
 }
 
@@ -285,5 +250,36 @@ a:active {
 
     .form__button-concede {
         width: 33%;
+    }
+}
+
+@keyframes incorrect-guess {
+    0% {
+        transform: translateX(-30px);
+    }
+    20% {
+        transform: translateX(24px);
+    }
+    40% {
+        transform: translateX(-18px);
+    }
+    60% {
+        transform: translateX(12px);
+    }
+    80% {
+        transform: translateX(-6px);
+    }
+    100% {
+        transform: translateX(0px);
+        border-bottom: 1.5px solid #bbb;
+    }
+}
+
+@keyframes previous-guess {
+    0% {
+        color: rgb(255, 61, 61);
+    }
+    100% {
+        color: black;
     }
 }
