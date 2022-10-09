@@ -130,6 +130,7 @@ export default function App() {
                                     else { (localStorage.setItem('losses', parseInt(localStorage.getItem('losses')) + 1)) }
                                     setGivenUpCounter(prevCount => prevCount + 1)
                                 }}
+                                disabled={isLoading}
                             >
                                 GIVE UP
                             </button>

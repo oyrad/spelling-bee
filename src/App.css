@@ -251,6 +251,10 @@ a {
     .form__button-concede {
         width: 33%;
     }
+
+    .correct__message {
+        margin-bottom: 1rem;
+    }
 }
 
 @keyframes incorrect-guess {
