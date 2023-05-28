@@ -28,20 +28,24 @@ export default function Navbar({ setDifficulty, wins, losses }) {
         <nav className="navbar">
             <p className="navbar__title">SPELLING BEE</p>
             <span className="navbar__actions">
-                <label className="navbar__label">Difficulty:</label>
-                <select
-                    onChange={e => setDifficulty(e.target.value)}
-                    className="navbar__select"
-                >
-                    <option value="beginner">Beginner</option>
-                    <option value="easy">Easy</option>
-                    <option selected value="medium">
-                        Medium
-                    </option>
-                    <option value="hard">Hard</option>
-                    <option value="veryHard">Very hard</option>
-                </select>
-                {/*<p className="navbar__stats">{wins}/{wins + losses}</p>*/}
+                <div>
+                    <label className="navbar__label">Difficulty:</label>
+                    <select
+                        onChange={e => setDifficulty(e.target.value)}
+                        className="navbar__select"
+                    >
+                        <option value="beginner">Beginner</option>
+                        <option value="easy">Easy</option>
+                        <option selected value="medium">
+                            Medium
+                        </option>
+                        <option value="hard">Hard</option>
+                        <option value="veryHard">Very hard</option>
+                    </select>
+                </div>
+                <p className="navbar__stats">
+                    Win ratio: {Math.round((wins / (wins + losses)) * 100)}%
+                </p>
                 <img
                     src={isLightTheme ? moon : sun}
                     onClick={() => setIsLightTheme(!isLightTheme)}

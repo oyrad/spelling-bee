@@ -59,10 +59,7 @@ a {
 
 .navbar__actions {
     display: flex;
-}
-
-.navbar__label {
-    margin-right: 0.5rem;
+    gap: 1rem;
 }
 
 .navbar__select {
@@ -71,7 +68,10 @@ a {
     padding: 2px 3px;
     border: none;
     border-bottom: 1px solid #bbb;
-    margin-right: 1.5rem;
+}
+
+.navbar__label {
+    margin-right: 0.5rem;
 }
 
 .navbar__toggle {
