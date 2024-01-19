@@ -1,5 +1,8 @@
 # Spelling Bee
 
+## Running at:
+[https://the-spelling-bee.netlify.app](https://the-spelling-bee.netlify.app)
+
 ### `npm start`
 
 Runs the app in the development mode.\
