@@ -20,8 +20,6 @@ export default function Navbar({ setDifficulty, wins, losses }) {
     }
   }, [isLightTheme]);
 
-  console.log(process.env.REACT_APP_API_KEY);
-
   return (
     <nav className="navbar">
       <p className="navbar__title">SPELLING BEE</p>
