@@ -1,2 +1,2 @@
-## Running at:
-[https://the-spelling-bee.netlify.app](https://the-spelling-bee.netlify.app)
+## Spelling bee:
+Choose a difficulty and guess the word based on pronunciation and definition.
